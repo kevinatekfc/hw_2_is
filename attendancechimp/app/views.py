@@ -53,3 +53,16 @@ def index(request):
 
 
 
+
+
+def time_view(request):
+    """Return the current Chicago time as HH:MM."""
+    now = datetime.now(CDT)
+    return HttpResponse(now.strftime("%H:%M"))
+
+
+def sum_view(request):
+    """Add n1 and n2 from the URL and return the sum as JSON."""
+    n1 = float(request.GET.get("n1"))
+    n2 = float(request.GET.get("n2"))
+    return JsonResponse({"sum": n1 + n2})
