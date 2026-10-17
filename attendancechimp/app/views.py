@@ -65,4 +65,7 @@ def sum_view(request):
     """Add n1 and n2 from the URL and return the sum as JSON."""
     n1 = float(request.GET.get("n1"))
     n2 = float(request.GET.get("n2"))
-    return JsonResponse({"sum": n1 + n2})
+    total = round(n1 + n2, 10)   # fixes tiny decimal errors like 2.3000000000000003
+    if total == int(total):
+        total = int(total)       # shows 3 instead of 3.0
+    return JsonResponse({"sum": total})
