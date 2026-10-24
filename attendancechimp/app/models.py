@@ -147,17 +147,12 @@ class Lecture(models.Model):
 
     qr_code is a random identifier made automatically when the lecture is
     created; it is unique so a code from one lecture can't be reused for
-    another. A course has at most one lecture per date.
+    another. A course can have more than one lecture on the same date
+    (e.g. a lab and a lecture), each with its own QR code.
     """
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField()
     qr_code = models.CharField(max_length=32, unique=True, default=generate_qr_code)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["course", "date"],
-                                    name="unique_lecture_per_day"),
-        ]
 
     def attendance_count(self):
         """Number of students with a valid upload for this lecture."""
