@@ -1,0 +1,24 @@
+LLM comparison: models.py (mine) vs. robot-models.py (Claude Opus 5.5)
+
+Both models have the same six core tables (InstructorProfile, StudentProfile,
+Course, Enrollment, Lecture, QRCodeUpload) and both pass makemigrations and
+migrate, so the basic structure is the same: profiles linked one-to-one to
+Django's User, a many-to-many between students and courses through
+Enrollment, and an upload whose lecture is optional (SET_NULL). My model is
+simpler and easier to implement: the meeting schedule is just three columns
+on Course (meeting_days like "MWF", start_time, end_time), the QR code is a
+short random string, and validation is one method that checks the code
+matches and the student is enrolled. The LLM's model is more complete,
+especially for anti-cheating and analytics: it adds a separate MeetingSchedule
+table (so a course can meet at different times on different days), a time
+window during which a lecture's QR code is accepted, a way to rotate a
+leaked code, an image hash to catch two students uploading the same photo,
+IP/device/GPS metadata, an upload status with a rejection reason, and
+created/updated timestamps on every table. The trade-off is that it has
+about twice as many fields, needs that extra metadata to be collected by the
+app before it is useful, and stores personal data (location, IP) that a
+class attendance tool may not need. It also only enforces "one upload per
+lecture" for accepted uploads, which allows unlimited rejected attempts. For
+this stage of the project my version is easier to understand and build on,
+while several of the LLM's ideas (the QR time window and duplicate-image
+check) would be worth adding later.
