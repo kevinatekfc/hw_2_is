@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - AttendanceChimp</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        form { display: inline-block; text-align: left; }
+        label { display: block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<h1>Sign Up</h1>
+<form method="post" action="/app/createUser">
+    <label for="user_name">User name</label>
+    <input type="text" id="user_name" name="user_name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <p>I am a:</p>
+    <input type="radio" id="student" name="is_student" value="1" checked>
+    <label for="student" style="display:inline">Student</label>
+    <input type="radio" id="instructor" name="is_student" value="0">
+    <label for="instructor" style="display:inline">Instructor</label>
+
+    <p><input type="submit" value="Sign Up"></p>
+</form>
+</body>
+</html>

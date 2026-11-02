@@ -12,9 +12,23 @@
 <body>
 <div class="bio">
     <h1>AttendanceChimp</h1>
-    <p>Electronic class attendance tracking application.</p>
+    <p>Electronic class attendance tracking application. Instructors post a QR code
+       in each lecture, and students upload a photo of it to record that they were there.</p>
     <hr>
 
+    {% if user_name %}
+        <p>Logged in as <b class="username">{{ user_name }}</b></p>
+        <form method="post" action="/accounts/logout/">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/">
+            <button type="submit">Log Out</button>
+        </form>
+    {% else %}
+        <p>Not logged in.</p>
+        <p><a href="/accounts/login/">Log In</a> | <a href="/app/new">Sign Up</a></p>
+    {% endif %}
+
+    <p>Current time (CST): {{ current_time }}</p>
 </div>
 </body>
 </html>
