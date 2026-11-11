@@ -45,6 +45,7 @@ Anti-cheating ideas built into the schema
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 import logging
 import string
@@ -92,12 +93,15 @@ class StudentProfile(models.Model):
 class Course(models.Model):
     """A course taught by exactly one instructor.
 
+    Course names are unique, so a course can be looked up by name
+    (createLecture does this).
     meeting_days stores the weekdays as letters, e.g. "MWF" or "TR".
     on_delete=PROTECT means an instructor can't be deleted while they still
     teach a course, so attendance history isn't lost by accident.
     """
-    name = models.CharField(max_length=200)                  # "Data Engineering"
-    code = models.CharField(max_length=20, unique=True)      # "DATA 13600"
+    name = models.CharField(max_length=200, unique=True)     # "Data Engineering"
+    code = models.CharField(max_length=20, unique=True,      # "DATA 13600"
+                            null=True, blank=True)           # optional: createCourse only sends a name
     instructor = models.ForeignKey(InstructorProfile, on_delete=models.PROTECT)
     meeting_days = models.CharField(max_length=7)            # "MWF", "TR", ...
     start_time = models.TimeField()
@@ -151,7 +155,7 @@ class Lecture(models.Model):
     (e.g. a lab and a lecture), each with its own QR code.
     """
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=timezone.localdate)     # today, unless given
     qr_code = models.CharField(max_length=32, unique=True, default=generate_qr_code)
 
     def attendance_count(self):

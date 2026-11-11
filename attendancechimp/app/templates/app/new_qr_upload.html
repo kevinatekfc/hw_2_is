@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload QR Code - AttendanceChimp</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        form { display: inline-block; text-align: left; }
+        label { display: block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<h1>Upload a QR Code</h1>
+{% if not user.is_authenticated %}<p>You must be logged in as a student to upload.</p>{% endif %}
+<form method="post" action="/app/createQRCodeUpload" enctype="multipart/form-data">
+    <label for="imageUpload">Photo of the lecture's QR code</label>
+    <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required>
+
+    <p><input type="submit" value="Upload"></p>
+</form>
+<p><a href="/">Home</a></p>
+</body>
+</html>

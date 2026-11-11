@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Course - AttendanceChimp</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        form { display: inline-block; text-align: left; }
+        label { display: block; margin-top: 10px; }
+        .days label { display: inline; margin-right: 10px; }
+    </style>
+</head>
+<body>
+<h1>Create a Course</h1>
+{% if not user.is_authenticated %}<p>You must be logged in as an instructor to create a course.</p>{% endif %}
+<form method="post" action="/app/createCourse">
+    <label for="course-name">Course name</label>
+    <input type="text" id="course-name" name="course-name" required>
+
+    <label for="start-time">Start time</label>
+    <input type="time" id="start-time" name="start-time" required>
+
+    <label for="end-time">End time</label>
+    <input type="time" id="end-time" name="end-time" required>
+
+    <p>Meets on (pick one or more):</p>
+    <div class="days">
+        <input type="checkbox" id="day-mon" name="day-mon" value="1"><label for="day-mon">Mon</label>
+        <input type="checkbox" id="day-tue" name="day-tue" value="1"><label for="day-tue">Tue</label>
+        <input type="checkbox" id="day-wed" name="day-wed" value="1"><label for="day-wed">Wed</label>
+        <input type="checkbox" id="day-thu" name="day-thu" value="1"><label for="day-thu">Thu</label>
+        <input type="checkbox" id="day-fri" name="day-fri" value="1"><label for="day-fri">Fri</label>
+    </div>
+
+    <p><input type="submit" value="Create Course"></p>
+</form>
+<p><a href="/">Home</a></p>
+</body>
+</html>
